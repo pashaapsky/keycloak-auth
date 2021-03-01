@@ -1,0 +1,158 @@
+.form {
+  .title {
+    margin-bottom: 30px;
+  }
+
+  &-input {
+    position: relative;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: $main-font;
+    background: #f0f0f0;
+    border: 1px solid #dfdfdf;
+
+    border-radius: 7px;
+    padding: 5px;
+  }
+
+  &-item {
+    display: flex;
+
+    &__title {
+      font-family: "Roboto", sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 19px;
+
+      color: #79829A;
+    }
+
+    &__value {
+      font-family: "Montserrat", sans-serif;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 20px;
+      color: $bold-title-color;
+
+      &.red {
+        color: #F25769;
+      }
+    }
+  }
+
+  &__group {
+    display: flex;
+
+    &.column {
+      flex-direction: column;
+    }
+  }
+
+  &__btn-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    &.column {
+      flex-direction: column;
+    }
+  }
+
+  &-control {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 15px;
+
+    padding-bottom: 20px;
+
+    & > .form-label {
+      display: block;
+      font-family: 'Roboto', sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 19px;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &.error {
+      input,
+      select {
+        border: 1px solid red;
+      }
+
+      .form-input {
+        border: 1px solid red;
+      }
+    }
+
+    &.success {
+      input,
+      select {
+        border: 1px solid green;
+      }
+
+      .form-input {
+        border: 1px solid green;
+      }
+    }
+
+    .form-input {
+      input {
+        border: none;
+      }
+    }
+  }
+
+  &-error {
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+
+    color: red;
+  }
+
+  label {
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+
+    margin-bottom: 12px;
+  }
+
+  input,
+  select {
+    width: 100%;
+    height: auto;
+
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+
+    border: 1px solid #dfdfdf;
+    box-sizing: border-box;
+    border-radius: 7px;
+
+    color: $font-color;
+    outline: none;
+
+    background: #f0f0f0;
+
+    padding: 5px 10px;
+  }
+}
