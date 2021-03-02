@@ -3,7 +3,8 @@ import {createSlice} from "@reduxjs/toolkit";
 const appSlice = createSlice({
     name: "app",
     initialState: {
-        token: null,
+        token: JSON.parse(localStorage.getItem('tokens')),
+        options: null,
         user: null,
     },
     reducers: {

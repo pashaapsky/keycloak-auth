@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useStatem, useCallback} from 'react';
 import {useHistory} from 'react-router-dom';
 import AppRouter from './routes';
 import {useDispatch, useSelector} from "react-redux";
@@ -13,66 +13,58 @@ function App() {
     const history = useHistory();
 
     const options = {
-        refreshToken: tokens?.refreshToken,
-        token: tokens?.accessToken
+        onLoad: 'check-sso',
+        checkLoginIframe: false,
+        // token: tokens?.accessToken,
+        // refreshToken: tokens?.refreshToken
+        token: keycloak?.accessToken,
+        refreshToken: keycloak?.refreshToken
     };
 
-    useEffect(() => {
-        let LKtokens =  JSON.parse(localStorage.getItem('tokens'));
+    const onKeycloakEvent = (event, error) => {
+        console.log('onKeycloakEvent', event, error);
 
-        console.log('LK tokens', LKtokens);
+        switch (event) {
+            case "onReady" :
+                console.log('ready', keycloak);
+                // dispatch(setUser(keycloak?.tokenParsed?.preferred_username));
+                return;
+            case "onAuthLogout":
+                console.log('logout', keycloak);
+                return;
+            case "onAuthRefreshSuccess":
+                console.log('authSuccess', keycloak);
 
-        if (LKtokens) {
-            dispatch(setToken(LKtokens));
+                const tokens = {
+                    accessToken: keycloak?.token,
+                    refreshToken: keycloak?.refreshToken
+                };
+
+                localStorage.setItem('tokens', JSON.stringify(tokens));
+                // dispatch(setToken(tokens));
+
+                return;
+            default:
+                return
         }
+    };
 
-    }, [dispatch]);
+    const onKeycloakTokens = (tokens) => {
+        console.log('onTokens:', tokens);
+        // dispatch(setToken(tokens));
+    };
 
-
-    // const onKeycloakEvent = (event, error) => {
-    //     console.log('onKeycloakEvent', event, error);
-    //
-    //     switch (event) {
-    //         case "onReady" :
-    //             console.log('ready', keycloak);
-    //             // dispatch(setUser(keycloak?.tokenParsed?.preferred_username));
-    //             return;
-    //         case "onAuthLogout":
-    //             console.log('logout', keycloak);
-    //             return;
-    //         default:
-    //             return
-    //     }
-    // };
-
-    // const onKeycloakTokens = (tokens) => {
-    //     console.log('onTokens:', tokens);
-    //
-    //     if (tokens?.refreshToken?.length) {
-    //         dispatch(setToken(tokens));
-    //     }
-    //
-    // };
-    //
-    // const onKeycloakTokensExpired = () => {
-    //     keycloak.updateToken(5)
-    //         .then(function (refreshed) {
-    //             if (refreshed) {
-    //                 alert('Token was successfully refreshed');
-    //             } else {
-    //                 alert('Token is still valid');
-    //             }
-    //         }).catch(function () {
-    //         alert('Failed to refresh the token, or the session has expired');
-    //     });
-    // };
+    const onKeycloakTokensExpired = async () => {
+        keycloak.updateToken(1)
+    };
 
     return (
         <ReactKeycloakProvider
+            initOptions={options}
             authClient={keycloak}
-            // onEvent={onKeycloakEvent}
-            // onTokens={onKeycloakTokens}
-            // onTokenExpired={onKeycloakTokensExpired}
+            onEvent={onKeycloakEvent}
+            onTokens={onKeycloakTokens}
+            onTokenExpired={onKeycloakTokensExpired}
         >
             <div className="App">
                 <AppRouter/>

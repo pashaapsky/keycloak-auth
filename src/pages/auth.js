@@ -54,8 +54,6 @@ function Auth(props) {
                 password: values.password
             });
 
-            console.log('data:', data);
-
             const result = await axios.post(loginUri, data, {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -65,14 +63,15 @@ function Auth(props) {
             ;
 
             if (result) {
-                console.log('result: ', result);
-
                 const tokens = {
                     refreshToken: result.refresh_token,
                     accessToken: result.access_token
                 };
 
+                console.log('tokens', tokens);
+
                 localStorage.setItem('tokens', JSON.stringify(tokens));
+                // keycloak.init({refreshToken : tokens.refreshToken, token: tokens.accessToken});
                 dispatch(setToken(tokens));
             }
 
@@ -117,6 +116,7 @@ function Auth(props) {
                                onChange={formik.handleChange}
                                onBlur={formik.handleBlur}
                                value={formik.values.password}
+                               autoComplete="off"
                         />
 
                         {(formik.touched.password && formik.errors.password) ? (

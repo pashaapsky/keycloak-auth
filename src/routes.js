@@ -16,10 +16,10 @@ import Profile from "./pages/profile";
 
 const AppRouter = () => {
     const {keycloak, initialized} = useKeycloak();
-
-    console.log('keycloak:', keycloak);
-    console.log('initialized:', initialized);
-    console.log('keycloak authenticated:', keycloak.authenticated);
+    //
+    // console.log('keycloak:', keycloak);
+    // console.log('initialized:', initialized);
+    // console.log('keycloak authenticated:', keycloak.authenticated);
 
     if (initialized) {
         if (keycloak.authenticated) {
